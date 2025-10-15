@@ -218,189 +218,189 @@ def sym_dec(session_key: bytes, nonce: bytes, ciphertext: bytes, tag: bytes) -> 
 
 
 # Testing and demonstration code
-# if __name__ == "__main__":
-#     print("Task 1 Demo: RSA keypairs")
-#     alice_pub, alice_priv = generate_rsa_keypair(RSA_BITS)
-#     bob_pub,   bob_priv   = generate_rsa_keypair(RSA_BITS)
+if __name__ == "__main__":
+    print("Task 1 Demo: RSA keypairs")
+    alice_pub, alice_priv = generate_rsa_keypair(RSA_BITS)
+    bob_pub,   bob_priv   = generate_rsa_keypair(RSA_BITS)
 
-#     print("\n--- Alice Public Key ---")
-#     print(f"n (bits) = {alice_pub['n'].bit_length()}")
-#     print(f"e        = {alice_pub['e']}")
-#     print(f"n (hex):     = {hex(alice_pub['n'])}")
+    print("\n--- Alice Public Key ---")
+    print(f"n (bits) = {alice_pub['n'].bit_length()}")
+    print(f"e        = {alice_pub['e']}")
+    print(f"n (hex):     = {hex(alice_pub['n'])}")
 
-#     print("\n--- Bob Public Key ---")
-#     print(f"n (bits) = {bob_pub['n'].bit_length()}")
-#     print(f"e        = {bob_pub['e']}")
-#     print(f"n (hex):     = {hex(bob_pub['n'])}")
+    print("\n--- Bob Public Key ---")
+    print(f"n (bits) = {bob_pub['n'].bit_length()}")
+    print(f"e        = {bob_pub['e']}")
+    print(f"n (hex):     = {hex(bob_pub['n'])}")
 
-#     msg = b"Hello from Alice. Task 1 signature test."
-#     sig = sign(msg, alice_priv)
-#     print("\nVerify with Alice pub (expect 1):", verify(msg, sig, alice_pub))
-#     print("Verify with Bob   pub (expect 0):", verify(msg, sig, bob_pub))
+    msg = b"Hello from Alice. Task 1 signature test."
+    sig = sign(msg, alice_priv)
+    print("\nVerify with Alice pub (expect 1):", verify(msg, sig, alice_pub))
+    print("Verify with Bob   pub (expect 0):", verify(msg, sig, bob_pub))
 
-#     print("\nTask 2: Diffie–Hellman parameters")
+    print("\nTask 2: Diffie–Hellman parameters")
     
-#     p, g = dh_params_fast(DH_BITS)
-#     secret_space = p
+    p, g = dh_params_fast(DH_BITS)
+    secret_space = p
 
-#     print(f"p (bits) = {p.bit_length()}")
-#     print(f"p        = {p}")
-#     print(f"g        = {g}")
+    print(f"p (bits) = {p.bit_length()}")
+    print(f"p        = {p}")
+    print(f"g        = {g}")
 
-#     print("\n--- Alice: pick a, A = g^a mod p, sign over (p||g||A) ---")
-#     a = dh_generate_secret(p)
-#     A = dh_public(g, a, p)
-#     payload_A = bind_values(p, g, A)
-#     sigA = sign(payload_A, alice_priv)
-#     print(f"A = {A}")
-#     print(f"sig(A) = {sigA}")
+    print("\n--- Alice: pick a, A = g^a mod p, sign over (p||g||A) ---")
+    a = dh_generate_secret(p)
+    A = dh_public(g, a, p)
+    payload_A = bind_values(p, g, A)
+    sigA = sign(payload_A, alice_priv)
+    print(f"A = {A}")
+    print(f"sig(A) = {sigA}")
 
-#     print("\n--- Bob: pick b, B = g^b mod p, sign over (p||g||B) ---")
-#     b = dh_generate_secret(p)
-#     B = dh_public(g, b, p)
-#     payload_B = bind_values(p, g, B)
-#     sigB = sign(payload_B, bob_priv)
-#     print(f"B = {B}")
-#     print(f"sig(B) = {sigB}")
+    print("\n--- Bob: pick b, B = g^b mod p, sign over (p||g||B) ---")
+    b = dh_generate_secret(p)
+    B = dh_public(g, b, p)
+    payload_B = bind_values(p, g, B)
+    sigB = sign(payload_B, bob_priv)
+    print(f"B = {B}")
+    print(f"sig(B) = {sigB}")
 
-#     print("\n--- Verify signatures ---")
-#     print("Alice checks (B,sigB) with Bob's pub:",
-#           verify(payload_B, sigB, bob_pub) == 1)
-#     print("Bob   checks (A,sigA) with Alice's pub:",
-#           verify(payload_A, sigA, alice_pub) == 1)
+    print("\n--- Verify signatures ---")
+    print("Alice checks (B,sigB) with Bob's pub:",
+          verify(payload_B, sigB, bob_pub) == 1)
+    print("Bob   checks (A,sigA) with Alice's pub:",
+          verify(payload_A, sigA, alice_pub) == 1)
 
-#     print("\n--- Shared secret ---")
-#     S_alice = dh_shared(B, a, p)
-#     S_bob   = dh_shared(A, b, p)
-#     print(f"S (Alice) = {S_alice}")
-#     print(f"S (Bob)   = {S_bob}")
-#     print("Shared secret matches?", S_alice == S_bob)
+    print("\n--- Shared secret ---")
+    S_alice = dh_shared(B, a, p)
+    S_bob   = dh_shared(A, b, p)
+    print(f"S (Alice) = {S_alice}")
+    print(f"S (Bob)   = {S_bob}")
+    print("Shared secret matches?", S_alice == S_bob)
 
 
-#     iterations = 10_000  # per assignment
-#     K_alice = kdf_hash_repeat(S_alice, iterations)
-#     K_bob   = kdf_hash_repeat(S_bob, iterations)
+    iterations = 10_000  # per assignment
+    K_alice = kdf_hash_repeat(S_alice, iterations)
+    K_bob   = kdf_hash_repeat(S_bob, iterations)
 
-#     print("\nTask 3: Encryption Key Derivation (KDF)")
-#     print(f"iterations = {iterations}")
-#     print(f"K (Alice) = {K_alice.hex()}")
-#     print(f"K (Bob)   = {K_bob.hex()}")
-#     print("Derived keys match?", K_alice == K_bob)
+    print("\nTask 3: Encryption Key Derivation (KDF)")
+    print(f"iterations = {iterations}")
+    print(f"K (Alice) = {K_alice.hex()}")
+    print(f"K (Bob)   = {K_bob.hex()}")
+    print("Derived keys match?", K_alice == K_bob)
 
-#     print("\nTask 4: Pseudo-Random Number Generator (PRNG)")
+    print("\nTask 4: Pseudo-Random Number Generator (PRNG)")
 
-#     # Random-looking sequence (deterministic given the seed)
-#     prng1 = SimplePRNG(123456789)
-#     seq1 = [prng1.generate(8).hex() for _ in range(5)]
-#     print("Seed = 123456789")
-#     print("Sequence 1:", seq1)
+    # Random-looking sequence (deterministic given the seed)
+    prng1 = SimplePRNG(123456789)
+    seq1 = [prng1.generate(8).hex() for _ in range(5)]
+    print("Seed = 123456789")
+    print("Sequence 1:", seq1)
 
-#     # Determinism: same seed = identical output
-#     prng2 = SimplePRNG(123456789)
-#     seq2 = [prng2.generate(8).hex() for _ in range(5)]
-#     print("\nSame Seed = 123456789")
-#     print("Sequence 2 (should match):", seq2)
-#     print("Sequences equal?", seq1 == seq2)
+    # Determinism: same seed = identical output
+    prng2 = SimplePRNG(123456789)
+    seq2 = [prng2.generate(8).hex() for _ in range(5)]
+    print("\nSame Seed = 123456789")
+    print("Sequence 2 (should match):", seq2)
+    print("Sequences equal?", seq1 == seq2)
 
-#     # reseeding impact: different seed = different output
-#     prng2.reseed(987654321)  # mix in new entropy
-#     seq3 = [prng2.generate(8).hex() for _ in range(5)]
-#     print("\nDifferent Seed = 987654321")
-#     print("Sequence 3 (should differ):", seq3)
+    # reseeding impact: different seed = different output
+    prng2.reseed(987654321)  # mix in new entropy
+    seq3 = [prng2.generate(8).hex() for _ in range(5)]
+    print("\nDifferent Seed = 987654321")
+    print("Sequence 3 (should differ):", seq3)
 
-#     # === Task 5: Authenticated Encryption (Encrypt-then-MAC) ===
-#     print("\nTask 5: Authenticated Encryption (Encrypt-then-MAC) Demo")
+    # === Task 5: Authenticated Encryption (Encrypt-then-MAC) ===
+    print("\nTask 5: Authenticated Encryption (Encrypt-then-MAC) Demo")
 
-#     # Use Task 4 PRNG to generate the nonce/IV (assignment requirement)
-#     prng5 = SimplePRNG(b"task5-iv-seed")  # fixed seed for reproducible screenshots
+    # Use Task 4 PRNG to generate the nonce/IV (assignment requirement)
+    prng5 = SimplePRNG(b"task5-iv-seed")  # fixed seed for reproducible screenshots
 
-#     # Simple message and optional associated data (AAD is authenticated, not encrypted)
-#     plaintext = b"Meet me at 10:30 by the library steps."
+    # Simple message and optional associated data (AAD is authenticated, not encrypted)
+    plaintext = b"Meet me at 10:30 by the library steps."
   
 
-#     # ---------------------------
-#     # Alice's terminal (sender)
-#     # ---------------------------
-#     print("\n[ ALICE ] Inputs to sym_enc:")
-#     print("  plaintext =", plaintext)
+    # ---------------------------
+    # Alice's terminal (sender)
+    # ---------------------------
+    print("\n[ ALICE ] Inputs to sym_enc:")
+    print("  plaintext =", plaintext)
  
-#     print("  prng-seed = b'task5-iv-seed'")
+    print("  prng-seed = b'task5-iv-seed'")
 
-#     # Authenticated Encryption (EtM): nonce, ciphertext, tag
-#     nonce, ciphertext, tag = sym_enc(K_alice, prng5, plaintext)
+    # Authenticated Encryption (EtM): nonce, ciphertext, tag
+    nonce, ciphertext, tag = sym_enc(K_alice, prng5, plaintext)
 
-#     # Show sym_enc output (ciphertext)
-#     print("\n[ ALICE ] sym_enc output:")
-#     print("  nonce      =", nonce.hex())
-#     print("  ciphertext =", ciphertext.hex())
+    # Show sym_enc output (ciphertext)
+    print("\n[ ALICE ] sym_enc output:")
+    print("  nonce      =", nonce.hex())
+    print("  ciphertext =", ciphertext.hex())
 
-#     # Inputs to HMAC (must include ciphertext, not plaintext): nonce || ciphertext
-#     import hmac
-#     hmac_input = nonce + ciphertext
-#     tag_check = hmac.new(K_alice, hmac_input, hashlib.sha256).digest()
-#     print("\n[ ALICE ] HMAC inputs & output:")
-#     print("  HMAC input (nonce || ciphertext) =", hmac_input.hex())
-#     print("  HMAC output (tag)                   =", tag_check.hex())
-#     print("  Tag matches sym_enc tag?            =", hmac.compare_digest(tag_check, tag))
+    # Inputs to HMAC (must include ciphertext, not plaintext): nonce || ciphertext
+    import hmac
+    hmac_input = nonce + ciphertext
+    tag_check = hmac.new(K_alice, hmac_input, hashlib.sha256).digest()
+    print("\n[ ALICE ] HMAC inputs & output:")
+    print("  HMAC input (nonce || ciphertext) =", hmac_input.hex())
+    print("  HMAC output (tag)                   =", tag_check.hex())
+    print("  Tag matches sym_enc tag?            =", hmac.compare_digest(tag_check, tag))
 
-#     # Authenticated-Encryption final output is concatenation of the two items above:
-#     # (nonce||ciphertext)  and  tag
-#     ae_payload = nonce + ciphertext          # what we treat as "ciphertext" to send
-#     ae_output  = ae_payload + tag            # full packet sent over the wire
-#     print("\n[ ALICE ] Authenticated-Encryption output = (nonce||ciphertext) || tag")
-#     print("  nonce||ciphertext =", ae_payload.hex())
-#     print("  tag               =", tag.hex())
-#     print("  full packet       =", ae_output.hex())
+    # Authenticated-Encryption final output is concatenation of the two items above:
+    # (nonce||ciphertext)  and  tag
+    ae_payload = nonce + ciphertext          # what we treat as "ciphertext" to send
+    ae_output  = ae_payload + tag            # full packet sent over the wire
+    print("\n[ ALICE ] Authenticated-Encryption output = (nonce||ciphertext) || tag")
+    print("  nonce||ciphertext =", ae_payload.hex())
+    print("  tag               =", tag.hex())
+    print("  full packet       =", ae_output.hex())
 
-#     # ---------------------------
-#     # Bob's terminal (receiver)
-#     # ---------------------------
-#     print("\n[  BOB  ] Received from Alice:")
-#     print("  nonce      =", nonce.hex())
-#     print("  ciphertext =", ciphertext.hex())
-#     print("  tag        =", tag.hex())
+    # ---------------------------
+    # Bob's terminal (receiver)
+    # ---------------------------
+    print("\n[  BOB  ] Received from Alice:")
+    print("  nonce      =", nonce.hex())
+    print("  ciphertext =", ciphertext.hex())
+    print("  tag        =", tag.hex())
 
-#     # Bob computes the corresponding HMAC and compares with Alice's tag
-#     expected_tag = hmac.new(K_bob, nonce + ciphertext, hashlib.sha256).digest()
-#     print("\n[  BOB  ] HMAC recompute & compare:")
-#     print("  recomputed tag    =", expected_tag.hex())
-#     print("  tags match?       =", hmac.compare_digest(expected_tag, tag))
+    # Bob computes the corresponding HMAC and compares with Alice's tag
+    expected_tag = hmac.new(K_bob, nonce + ciphertext, hashlib.sha256).digest()
+    print("\n[  BOB  ] HMAC recompute & compare:")
+    print("  recomputed tag    =", expected_tag.hex())
+    print("  tags match?       =", hmac.compare_digest(expected_tag, tag))
 
-#     # Bob decrypts the received ciphertext and reads the message
-#     recovered = sym_dec(K_bob, nonce, ciphertext, tag)
-#     print("\n[  BOB  ] Decryption result:", recovered)
-#     print("Decryption OK?", recovered == plaintext)
+    # Bob decrypts the received ciphertext and reads the message
+    recovered = sym_dec(K_bob, nonce, ciphertext, tag)
+    print("\n[  BOB  ] Decryption result:", recovered)
+    print("Decryption OK?", recovered == plaintext)
 
-#     #Task 6: Tampering experiment (Optional)
-#     print("\nTask 6: Tampering Experiment — ciphertext flip & detection")
-#     # We reuse K_bob, aad, and the (nonce, ciphertext, tag) produced in Task 5 above.
-#     # Show original wire items (for screenshots)
-#     print("[ ALICE ] Original packet (to send):")
-#     print("  nonce      =", nonce.hex())
-#     print("  ciphertext =", ciphertext.hex())
-#     print("  tag        =", tag.hex())
+    #Task 6: Tampering experiment (Optional)
+    print("\nTask 6: Tampering Experiment — ciphertext flip & detection")
+    # We reuse K_bob, aad, and the (nonce, ciphertext, tag) produced in Task 5 above.
+    # Show original wire items (for screenshots)
+    print("[ ALICE ] Original packet (to send):")
+    print("  nonce      =", nonce.hex())
+    print("  ciphertext =", ciphertext.hex())
+    print("  tag        =", tag.hex())
 
-#     # Tamper the ciphertext: flip 1 bit
-#     tampered_ct = bytearray(ciphertext)
-#     if tampered_ct:
-#         tampered_ct[0] ^= 0x01
-#     tampered_ct = bytes(tampered_ct)
+    # Tamper the ciphertext: flip 1 bit
+    tampered_ct = bytearray(ciphertext)
+    if tampered_ct:
+        tampered_ct[0] ^= 0x01
+    tampered_ct = bytes(tampered_ct)
 
-#     print("\n[ MALLORY ] Tampered packet:")
-#     print("  tampered ciphertext =", tampered_ct.hex())
-#     print("  (nonce unchanged; tag unchanged)")
+    print("\n[ MALLORY ] Tampered packet:")
+    print("  tampered ciphertext =", tampered_ct.hex())
+    print("  (nonce unchanged; tag unchanged)")
 
-#     # Bob's terminal (receiver)
-#     print("\n[  BOB  ] Verifies & (tries to) decrypt the tampered packet")
+    # Bob's terminal (receiver)
+    print("\n[  BOB  ] Verifies & (tries to) decrypt the tampered packet")
 
-#     # Recompute HMAC on Bob's side to show mismatch
-#     Kenc_B, Kmac_B = derive_subkeys(K_bob)
-#     recomputed_tag = hmac.new(Kmac_B, nonce + tampered_ct, hashlib.sha256).digest()
-#     print("  recomputed tag =", recomputed_tag.hex())
-#     print("  tags match?    =", hmac.compare_digest(recomputed_tag, tag))
+    # Recompute HMAC on Bob's side to show mismatch
+    Kenc_B, Kmac_B = derive_subkeys(K_bob)
+    recomputed_tag = hmac.new(Kmac_B, nonce + tampered_ct, hashlib.sha256).digest()
+    print("  recomputed tag =", recomputed_tag.hex())
+    print("  tags match?    =", hmac.compare_digest(recomputed_tag, tag))
 
-#     # Attempt to decrypt (EtM does verify-then-decrypt)
-#     recovered_tampered = sym_dec(K_bob, nonce, tampered_ct, tag)
-#     print("  sym_dec result =", recovered_tampered)
-#     print("  decryption failed (expected)?", recovered_tampered is None)
+    # Attempt to decrypt (EtM does verify-then-decrypt)
+    recovered_tampered = sym_dec(K_bob, nonce, tampered_ct, tag)
+    print("  sym_dec result =", recovered_tampered)
+    print("  decryption failed (expected)?", recovered_tampered is None)
 
