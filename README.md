@@ -1,12 +1,12 @@
-# Project 1 — Secure Communication Prototype (Short README)
+# Project 1 — Secure Communication Prototype (Authenticity and Integrity)
 
-This repo implements a complete, learning-focused secure messaging pipeline using only Python’s standard library:
+A comprehensive Python secure messaging prototype featuring textbook RSA digital signatures, Diffie–Hellman key exchange, SHA-256-based session key derivation, cryptographically secure PRNG, and authenticated encryption using Encrypt-then-MAC with HMAC-SHA256. Implements public-key infrastructure, key agreement, message integrity, tamper detection, and end-to-end encryption—all with Python’s standard library. Ideal for learning, research, and demonstrating modern cryptography, secure communication, and cybersecurity best practices:
 
 Task 1: RSA (textbook) — keygen, hash, sign, verify
 
 Task 2: Diffie–Hellman + signatures on exchanged values
 
-Task 3: KDF (iterated SHA-256) to derive a session key
+Task 3: Key Derivation Function (KDF) (iterated SHA-256) to derive a session key
 
 Task 4: PRNG with seed/reseed/generate (SHA-256 based)
 
